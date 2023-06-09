@@ -18,8 +18,8 @@ void main() async {
   );
 }
 
-Stream<Provider> _dependencies() async* {
+Stream<InheritedProvider> _dependencies() async* {
   final db = await Db.getInstance();
   yield Provider.value(value: db);
-  yield Provider<WordListService>.value(value: await WordListService.getInstance(db));
+  yield ChangeNotifierProvider<WordListService>.value(value: await WordListService.getInstance(db));
 }
