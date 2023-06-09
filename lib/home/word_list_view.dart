@@ -12,31 +12,38 @@ class WordListView extends StatefulWidget {
 
 class _WordsListViewState extends State<WordListView> {
   Widget _buildItem(String word, String translation) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        Text(
-          word,
-          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+    return Padding(
+      padding: const EdgeInsets.only(left: 16, right: 16, top: 4, bottom: 4),
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(8),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                word,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(translation)
+            ],
+          ),
         ),
-        Text(translation)
-      ],
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     final words = context.watch<WordListService>().words.entries.toList();
-    return ListView.separated(
-      separatorBuilder: (context, index) => const Divider(
-        indent: 48,
-        endIndent: 48,
-        color: Colors.black,
-      ),
+    return ListView.builder(
       itemCount: words.length,
       itemBuilder: (context, index) {
         return _buildItem(words[index].key, words[index].value);
       },
+      prototypeItem: _buildItem('word', 'translation'),
     );
   }
 }
